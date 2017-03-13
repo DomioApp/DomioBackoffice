@@ -1,10 +1,5 @@
 package templater
 
-import (
-    "domio_backoffice/components/api"
-    "fmt"
-)
-
 type TopBarData struct {
     LeftColumnLinks  []Link
     RightColumnLinks []Link
@@ -42,11 +37,10 @@ func GetTopBarData(pageName string, userName string, token string) TopBarData {
 
     if (userName != "") {
 
-        countResp := api.GetUserDomainsCount(token)
+        //countResp := api.GetUserDomainsCount(token)
 
         customLinks = []Link{
-            {Url:"/profile/domains/add", Label:"Add Domain", ClassName:"b-top-bar-container__domain-add-link"},
-            {Url:"/profile/domains", Label:fmt.Sprintf("My Domains (%d)", countResp.Count)},
+            //{Url:"/profile/domains", Label:fmt.Sprintf("My Domains (%d)", countResp.Count)},
             {Url:"/profile", Label:userName},
             {Url:"/logout", Label:"Logout"},
         }
@@ -60,8 +54,8 @@ func GetTopBarData(pageName string, userName string, token string) TopBarData {
 
     dataset := TopBarData{
         LeftColumnLinks:[]Link{
-            {Url:"/", Label:"Home"},
-            {Url:"/domains", Label:"Domains"},
+            {Url:"/", Label:"Dashboard"},
+            {Url:"/users", Label:"Users"},
         },
         RightColumnLinks:customLinks,
     }
