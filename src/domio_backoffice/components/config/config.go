@@ -46,7 +46,7 @@ func (*AppStatus) GetBuildDateTime() string {
 
 var AppStatusInfo AppStatus
 var Config Configuration
-var ConfigPath = "/usr/local/domio_public"
+var ConfigPath = "/usr/local/domio_backoffice"
 
 func LoadConfig() error {
     configFile := path.Join(ConfigPath, "config.json")
