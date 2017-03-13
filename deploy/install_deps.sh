@@ -2,7 +2,7 @@
 set -e
 
 echo Installing Go dependendcies...
-cd ~/domiopublic
+cd ~/domiobackoffice
 
 go get -u -v github.com/fatih/color
 go get -u -v github.com/gorilla/mux

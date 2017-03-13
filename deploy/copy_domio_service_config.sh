@@ -3,7 +3,7 @@ set -e
 
 echo Copying Domio Service Config...
 
-yes | cp -rf ~/domiopublic/deploy/config/domio_service.sh /etc/init.d/domio_public
+yes | cp -rf ~/domiobackoffice/deploy/config/domio_service.sh /etc/init.d/domio_backoffice
 
 systemctl daemon-reload
 

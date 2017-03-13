@@ -5,7 +5,7 @@ echo Building Domio Public...
 #rm -rf /domio
 #mkdir /domio
 
-cd ~/domiopublic
+cd ~/domiobackoffice
 
 #=====================================================================================================================
 
@@ -20,23 +20,23 @@ echo "Hash:       ${hash}"
 echo "Version:    ${version}"
 echo ------------------------------------------------------
 
-go build -o /usr/local/bin/domio_public -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" domio_public
+go build -o /usr/local/bin/domio_backoffice -ldflags "-X main.Buildstamp=$buildstamp -X main.Hash=$hash  -X main.Version=$version" domio_backoffice
 
 #=====================================================================================================================
 
-#/usr/local/bin/domio_public init --aws-access-key-id=$AWS_ACCESS_KEY_ID \
+#/usr/local/bin/domio_backoffice init --aws-access-key-id=$AWS_ACCESS_KEY_ID \
 #                                 --aws-secret-access-key=$AWS_SECRET_ACCESS_KEY \
 #                                 --db-name=$DOMIO_DB_NAME \
 #                                 --db-user=$DOMIO_DB_USER \
 #                                 --db-password=$DOMIO_DB_PASSWORD
 
-/usr/local/bin/domio_public init --env=staging
+/usr/local/bin/domio_backoffice init --env=staging
 
 cd /
-rm -rf ~/domiopublic
+rm -rf ~/domiobackoffice
 
-service domio_public stop
-service domio_public start
+service domio_backoffice stop
+service domio_backoffice start
 
 echo Domio Public is built and ready!
 

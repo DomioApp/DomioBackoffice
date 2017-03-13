@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_NAME=domio_public
+PROJECT_NAME=domio_backoffice
 
 platform='unknown'
 unamestr=`uname -s`

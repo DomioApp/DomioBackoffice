@@ -49,7 +49,7 @@ go_build:
         - go get -u github.com/tdewolff/minify
         - go get -u github.com/dgrijalva/jwt-go
 
-        - go build -o bin/domio_public domio_public
+        - go build -o bin/domio_backoffice domio_backoffice
     only:
     - tags
 
@@ -57,7 +57,7 @@ deploy_staging:
     stage: deploy
     script:
       - echo "Deploy to staging server"
-      - ssh root@$DEPLOY_STAGING_IP "rm -rf ~/domiopublic; git clone git@gitlab.com:basharov/DomioPublic.git ~/domiopublic; cd ~/domiopublic; export PORT=$PORT; ./deploy.sh"
+      - ssh root@$DEPLOY_STAGING_IP "rm -rf ~/domiobackoffice; git clone git@gitlab.com:basharov/domiobackoffice.git ~/domiobackoffice; cd ~/domiobackoffice; export PORT=$PORT; ./deploy.sh"
     environment:
       name: staging
       url: https://domio.in

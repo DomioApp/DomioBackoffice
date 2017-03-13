@@ -3,7 +3,7 @@ set -e
 
 echo Copying nginx config files...
 
-yes | cp -rf ~/domiopublic/deploy/config/config.nginx /etc/nginx/nginx.conf
+yes | cp -rf ~/domiobackoffice/deploy/config/config.nginx /etc/nginx/nginx.conf
 
 if [ -f "/run/nginx.pid" ]
 then
