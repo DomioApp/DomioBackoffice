@@ -54,7 +54,7 @@ func GetTopBarData(pageName string, userName string, token string) TopBarData {
 
     dataset := TopBarData{
         LeftColumnLinks:[]Link{
-            {Url:"/", Label:"Dashboard"},
+            {Url:"/dashboard", Label:"Dashboard"},
             {Url:"/users", Label:"Users"},
         },
         RightColumnLinks:customLinks,

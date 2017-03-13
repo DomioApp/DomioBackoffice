@@ -19,8 +19,8 @@ func StartRouter() {
         domiorouter.Path("/style.css").Handler(http.FileServer(http.Dir("/usr/local/domio_backoffice_client")))
         domiorouter.Path("/app/app.js").Handler(http.FileServer(http.Dir("/usr/local/domio_backoffice_client")))
 
-        windows_dart_path := "/Users/sbasharov/WebstormProjects/DomioClient/src"
-        mac_dart_path := "/Users/sergeibasharov/WebstormProjects/DomioClient/src"
+        windows_dart_path := "/Users/sbasharov/WebstormProjects/DomioBackofficeClient/src"
+        mac_dart_path := "/Users/sergeibasharov/WebstormProjects/DomioBackofficeClient/src"
 
         current_dart_path := ""
 
