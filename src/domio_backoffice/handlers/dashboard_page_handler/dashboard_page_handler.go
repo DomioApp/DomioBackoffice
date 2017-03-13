@@ -1,18 +1,17 @@
-package profile_page_handler
+package dashboard_page_handler
 
 import (
     "html/template"
     "net/http"
     "domio_backoffice/templater"
     "domio_backoffice/components/api"
-    "fmt"
     "log"
 )
 
 type PageData struct {
     PageTitle           string
     ProfileTopBarData   ProfileTopBarData
-    ProfileMainAreaData ProfileMainAreaData
+    DashboardMainAreaData DashboardMainAreaData
     SideBarData         templater.SideBarData
 }
 
@@ -37,18 +36,18 @@ func ProfilePageHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func GetUrl() string {
-    return "/profile"
+    return "/dashboard"
 }
 
 func GetPageName() string {
-    return "ProfilePage"
+    return "DashboardPage"
 }
 
 func GetPageData() PageData {
     return PageData{
-        PageTitle: "Domio - Marketplace for domains",
+        PageTitle: "Domio Backoffice Dashboard",
         ProfileTopBarData:GetProfileTopBarData(),
-        ProfileMainAreaData:ProfileMainAreaData{Title:"Profile page"},
+        DashboardMainAreaData:DashboardMainAreaData{Title:"Dashboard"},
         SideBarData:templater.GetSideBarData(),
     }
 
@@ -62,9 +61,9 @@ func GetProfileTopBarData() ProfileTopBarData {
 
     return ProfileTopBarData{
         Links:[]templater.Link{
-            {Url:"/profile/domains", Label:fmt.Sprintf("My Domains (%d)", countResp.Count)},
-            {Url:"/profile/subscriptions", Label:"My Subscriptions"},
-            {Url:"/profile/payments", Label:"Cards"},
+            //{Url:"/profile/domains", Label:fmt.Sprintf("My Domains (%d)", countResp.Count)},
+            {Url:"/subscriptions", Label:"Subscriptions"},
+            {Url:"/domains", Label:"Domains"},
         },
     }
 }

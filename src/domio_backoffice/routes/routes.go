@@ -3,7 +3,7 @@ package routes
 import (
     "net/http"
     "domio_backoffice/handlers/login_page_handler"
-    "domio_backoffice/handlers/profile_page_handler"
+    "domio_backoffice/handlers/dashboard_page_handler"
     "domio_backoffice/handlers/logout_page_handler"
 )
 
@@ -32,8 +32,8 @@ var RoutesList = Routes{
     Route{
         "ProfilePage",
         "GET",
-        profile_page_handler.GetUrl(),
-        profile_page_handler.ProfilePageHandler,
+        dashboard_page_handler.GetUrl(),
+        dashboard_page_handler.ProfilePageHandler,
     },
 }
 

@@ -1,4 +1,4 @@
-package profile_page_handler
+package dashboard_page_handler
 
 import (
     "html/template"
