@@ -1,0 +1,125 @@
+#user  nobody;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+
+    #    Redirect all non-https requests to https naked domain
+    server {
+        listen 80;
+        server_name domio.in www.domio.in;
+        return 301 https://domio.in$request_uri;
+    }
+
+    #    Redirect all https wwww requests to https naked domain
+    server {
+        gzip on;
+        gzip_min_length  1100;
+        gzip_buffers  4 32k;
+        gzip_types    text/plain application/x-javascript text/xml text/css;
+        gzip_vary on;
+
+        listen      443 ssl http2;
+        listen [::]:443 ssl http2;
+
+        server_name www.domio.in;
+
+        ssl_certificate      /etc/letsencrypt/live/domio.in/fullchain.pem;
+        ssl_certificate_key  /etc/letsencrypt/live/domio.in/privkey.pem;
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+        return 301 https://domio.in$request_uri;
+    }
+
+    server {
+        gzip on;
+        gzip_min_length  1100;
+        gzip_buffers  4 32k;
+        gzip_proxied any;
+
+        gzip_types
+            text/plain
+            text/css
+            text/js
+            text/html
+            text/xml
+            text/javascript
+            application/javascript
+            application/x-javascript
+            application/json
+            application/xml
+            application/rss+xml
+            image/svg+xml;
+
+        gzip_vary on;
+
+        listen      443 ssl http2;
+        listen [::]:443 ssl http2;
+
+        server_name domio.in;
+
+        ssl_certificate      /etc/letsencrypt/live/domio.in/fullchain.pem;
+        ssl_certificate_key  /etc/letsencrypt/live/domio.in/privkey.pem;
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+
+        location / {
+            proxy_pass   http://127.0.0.1:8090;
+
+            auth_basic "Restricted Content";
+            auth_basic_user_file /etc/nginx/.htpasswd;
+        }
+
+        location /app/app.js {
+            alias /usr/local/domio_client/app.dart.js;
+            expires 7d;
+        }
+
+        location /app {
+            root   /usr/local/domio_client;
+        }
+
+        location /style.css {
+            alias /usr/local/domio_client/style.css;
+            expires 7d;
+        }
+    }
+}

@@ -1,0 +1,7 @@
+.DS_Store
+.idea/
+bin
+pkg
+src/*
+!src/domio_backoffice
+src/domio_backoffice/handlers/**/*.qtpl.go

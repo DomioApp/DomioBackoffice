@@ -1,0 +1,97 @@
+image: golang:1.7.4
+
+variables:
+  BIN_PATH: "/domio"
+
+before_script:
+  #https://docs.gitlab.com/ee/ci/ssh_keys/README.html
+  # Install ssh-agent if not already installed, it is required by Docker.
+  # (change apt-get to yum if you use a CentOS-based image)
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+  # Run ssh-agent (inside the build environment)
+  - eval $(ssh-agent -s)
+
+  # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+
+  # For Docker builds disable host key checking. Be aware that by adding that
+  # you are suspectible to man-in-the-middle attacks.
+  # WARNING: Use this only with the Docker executor, if you use it with shell
+  # you will overwrite your user's SSH config.
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'#    - export GO_PROJECT_PATH="$GOPATH/src/gitlab.com/$CI_PROJECT_NAMESPACE"
+
+#    - echo $GO_PROJECT_PATH
+#    - mkdir -p $GO_PROJECT_PATH
+#    - ln -s $(pwd) $GO_PROJECT_PATH
+#    - export GO_PROJECT_PATH="$GO_PROJECT_PATH/$CI_PROJECT_NAME"
+#    - echo $GO_PROJECT_PATH
+#    - cd $GO_PROJECT_PATH
+#    - ls $GO_PROJECT_PATH
+
+stages:
+    - build
+    - deploy
+#    - verify
+#    - style
+
+go_build:
+    stage: build
+    script:
+        - export GOPATH=$PWD
+
+        - go get -u github.com/jmespath/go-jmespath
+        - go get -u github.com/fatih/color
+        - go get -u github.com/gorilla/mux
+        - go get -u github.com/gorilla/websocket
+        - go get -u github.com/RackSec/srslog
+        - go get -u github.com/tdewolff/minify
+        - go get -u github.com/dgrijalva/jwt-go
+
+        - go build -o bin/domio_public domio_public
+    only:
+    - tags
+
+deploy_staging:
+    stage: deploy
+    script:
+      - echo "Deploy to staging server"
+      - ssh root@$DEPLOY_STAGING_IP "rm -rf ~/domiopublic; git clone git@gitlab.com:basharov/DomioPublic.git ~/domiopublic; cd ~/domiopublic; export PORT=$PORT; ./deploy.sh"
+    environment:
+      name: staging
+      url: https://domio.in
+
+  # Tagged commit is used to build the app, so master branch is not needed
+  # http://stackoverflow.com/questions/41628244/how-to-make-gitlab-build-the-commit-only-once
+    only:
+    - tags
+
+#go_test:
+#    stage: verify
+#    script:
+#        - go test -race -cover $(go list ./... | grep -v "vendor")
+
+#go_vet:
+#    stage: verify
+#    script:
+#        - go vet $(go list ./... | grep -v "vendor")
+
+#staticcheck:
+#    stage: verify
+#    script:
+#        - go get -u honnef.co/go/staticcheck/cmd/staticcheck
+#        - staticcheck $(go list ./... | grep -v "vendor")
+
+#golint:
+#    stage: style
+#    script:
+#        - go get -u github.com/golang/lint/golint
+#        - out=$(golint $(go list ./... | grep -v "vendor"))
+#        - if [ "$out" ]; then echo "$out"; exit 1; fi
+
+#gosimple:
+#    stage: style
+#    script:
+#        - go get -u honnef.co/go/simple/cmd/gosimple
+#        - gosimple $(go list ./... | grep -v "vendor")
