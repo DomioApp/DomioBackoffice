@@ -63,7 +63,8 @@ func GetProfileTopBarData() ProfileTopBarData {
         Links:[]templater.Link{
             //{Url:"/profile/domains", Label:fmt.Sprintf("My Domains (%d)", countResp.Count)},
             {Url:"/subscriptions", Label:"Subscriptions"},
-            {Url:"/domains", Label:"Domains"},
+            {Url:"/domains", Label:"All Domains"},
+            {Url:"/domains/pending", Label:"Pending Domains"},
         },
     }
 }
