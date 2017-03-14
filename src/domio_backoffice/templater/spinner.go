@@ -30,7 +30,7 @@ func GetSpinnerTemplate() string {
                         }
 
                         .spinner > div {
-                            background-color: #158;
+                            background-color: #8c0035;
                             opacity: 0.8;
                             height: 100%;
                             width: 6px;
