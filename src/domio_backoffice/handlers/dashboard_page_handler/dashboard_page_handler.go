@@ -12,7 +12,6 @@ type PageData struct {
     PageTitle           string
     ProfileTopBarData   ProfileTopBarData
     DashboardMainAreaData DashboardMainAreaData
-    SideBarData         templater.SideBarData
 }
 
 var profilePageTemplate *template.Template
@@ -48,7 +47,6 @@ func GetPageData() PageData {
         PageTitle: "Domio Backoffice Dashboard",
         ProfileTopBarData:GetProfileTopBarData(),
         DashboardMainAreaData:DashboardMainAreaData{Title:"Dashboard"},
-        SideBarData:templater.GetSideBarData(),
     }
 
 }
@@ -61,7 +59,6 @@ func GetProfileTopBarData() ProfileTopBarData {
 
     return ProfileTopBarData{
         Links:[]templater.Link{
-            //{Url:"/profile/domains", Label:fmt.Sprintf("My Domains (%d)", countResp.Count)},
             {Url:"/subscriptions", Label:"Subscriptions"},
             {Url:"/domains", Label:"All Domains"},
             {Url:"/domains/pending", Label:"Pending Domains"},

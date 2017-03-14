@@ -10,7 +10,6 @@ func getBaseTemplateContent() string {
                             <head>
                                 <meta charset="UTF-8">
                                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-                                <meta name="description" content="Domio is a marketplace for domains.">
                                 <meta name="page" content="{{.BaseTemplateData.PageName}}">
 
                                 <title>{{.PageData.PageTitle}}</title>
@@ -18,14 +17,34 @@ func getBaseTemplateContent() string {
                             </head>
 
                             <body>
-                                {{template "top_bar_template" .}}
-                                {{template "main_template" .}}
-                                {{template "app_status_infobar" .}}
+
+                                {{if eq .BaseTemplateData.PageName "LoginPage"}}
+
+                                    {{template "main_template" .}}
+
+                                {{else}}
+
+                                    {{template "spinner_template" .}}
+
+                                {{end}}
+
 
                                 {{if eq .UseDart true}}
-                                    <script type="application/dart" src="/app/app.dart"></script>
+
+                                    {{if eq .BaseTemplateData.PageName "LoginPage"}}
+                                        <script type="application/dart" src="/app/login_page.dart"></script>
+                                    {{else}}
+                                        <script type="application/dart" src="/app/app.dart"></script>
+                                    {{end}}
+
                                 {{else}}
-                                    <script src="/app/app.js"></script>
+
+                                    {{if eq .BaseTemplateData.PageName "LoginPage"}}
+                                        <script type="application/javascript" src="/app/login_page.js"></script>
+                                    {{else}}
+                                        <script type="application/javascript" src="/app/app.js"></script>
+                                    {{end}}
+
                                 {{end}}
 
                             </body>

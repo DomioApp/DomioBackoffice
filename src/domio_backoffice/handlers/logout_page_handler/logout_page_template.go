@@ -3,7 +3,6 @@ package logout_page_handler
 import (
     "html/template"
     "log"
-    "domio_backoffice/templater"
 )
 
 func GetLogoutPageTemplate(parsedTemplate *template.Template) {
@@ -15,9 +14,4 @@ func GetLogoutPageTemplate(parsedTemplate *template.Template) {
         log.Print(err)
     }
 
-    _, err2 := parsedTemplate.New("sidebar_template").Parse(templater.GetSideBarTemplate())
-
-    if (err2 != nil) {
-        log.Print(err2)
-    }
 }

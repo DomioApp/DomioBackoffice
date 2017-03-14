@@ -35,8 +35,7 @@ type TemplateAdditionals func(*template.Template)
 func BuildTemplate(addTemplatesToBaseTemplate TemplateAdditionals) *template.Template {
 
     parsedTemplate, parseErr := template.New("base_template").Parse(getBaseTemplateContent())
-    parsedTemplate.New("top_bar_template").Parse(GetTopBarTemplate())
-    parsedTemplate.New("app_status_infobar").Parse(GetAppStatusInfoBarTemplate())
+    parsedTemplate.New("spinner_template").Parse(GetSpinnerTemplate())
 
     if (parseErr != nil) {
         log.Fatalln(parseErr)

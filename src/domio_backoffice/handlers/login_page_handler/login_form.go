@@ -20,7 +20,6 @@ func GetLoginFormTemplate() string {
                                                 {{with .SubmitButton}}
                                                     <input type="submit" value="{{.Label}}"/>
                                                 {{end}}
-                                                <a class="signup-link" href="/signup">Signup</a>
                                             </div>
                                         </form>
                                     </div>
